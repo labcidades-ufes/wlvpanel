@@ -25,6 +25,15 @@ As biografias do projeto contêm cargos antigos; a apresentação não deve repr
 
 O [módulo Sobre do e-mar](https://labcidades.ufes.br/e-mar/sobre/) é referência de organização editorial: apresentação do projeto, usos do repositório, metodologia, equipe, parceiros e citação. As informações e números específicos da Economia do Mar não se aplicam ao WLVD.
 
+## Apoio
+
+A seção de apoio da apresentação cita dois grupos, ambos com vínculo institucional com a UnDF e incluídos por solicitação do usuário em 19 de setembro de 2026:
+
+- [GEPT — Grupo de Estudos e Pesquisas para o Trabalho](https://gept.grupo.pro.br): apresentado pelo próprio site como grupo de pesquisa e debate público sobre a teoria do valor-trabalho e as ciências sociais, com agenda dedicada à jornada de trabalho. A descrição usada no painel resume essa apresentação institucional.
+- [Capital Data Lab](https://capitaldatalab.grupo.pro.br): apresentado pelo próprio site como projeto de mineração de dados, inteligência estratégica e pesquisa-ação no Distrito Federal, com coleta automatizada de fontes públicas. A descrição usada no painel resume essa apresentação institucional.
+
+Não foram incorporados logotipos ou imagens dos dois grupos: os quadros usam apenas texto e links. As descrições devem acompanhar o que os sites divulgam sobre si mesmos e não constituem endosso do conteúdo específico de cada projeto.
+
 ## Proveniência dos recursos visuais originais
 
 Os arquivos abaixo foram obtidos diretamente das fontes identificadas. Os bytes foram preservados, sem geração, retoque ou alteração de identidade. O enquadramento em CSS pode ser usado sem modificar o original. Onde a licença específica não foi informada, não se presume licença aberta.

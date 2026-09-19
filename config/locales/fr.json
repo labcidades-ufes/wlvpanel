@@ -733,7 +733,12 @@
     "about2.team_link": "Rencontrez l'équipe et les autres membres →",
     "about2.institution_kicker": "Lien institutionnel",
     "about2.institution_text": "WLVD est lié à LabCidades. Ce partenariat rapproche la recherche du travail, de la production et du développement de la création d’outils publics d’exploration des données.",
-    "about2.institution_link": "Visitez LabCidades →"
+    "about2.institution_link": "Visitez LabCidades →",
+    "about2.support_kicker": "Soutien",
+    "about2.support_gept_text": "Le GEPT — Groupe d'études et de recherches pour le travail (UnDF, Brasília) — réunit recherche et débat public sur la théorie de la valeur-travail, le temps de travail et les sciences sociales.",
+    "about2.support_gept_link": "Visitez le GEPT →",
+    "about2.support_cdl_text": "Le Capital Data Lab (UnDF/FAPDF) développe la fouille de données, la collecte automatisée et la recherche-action pour produire du renseignement stratégique sur le travail, le commerce et le crédit dans le District fédéral.",
+    "about2.support_cdl_link": "Visitez le Capital Data Lab →"
   },
   "phrases": {
     "About": "À propos",

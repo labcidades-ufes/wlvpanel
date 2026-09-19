@@ -733,7 +733,12 @@
     "about2.team_link": "Gặp gỡ nhóm và các thành viên khác →",
     "about2.institution_kicker": "Liên kết tổ chức",
     "about2.institution_text": "WLVD được liên kết với LabCidades. Sự hợp tác này kết nối nghiên cứu về lao động, sản xuất và phát triển với các công cụ công cộng để khám phá dữ liệu.",
-    "about2.institution_link": "Ghé thăm LabCidades →"
+    "about2.institution_link": "Ghé thăm LabCidades →",
+    "about2.support_kicker": "Hỗ trợ",
+    "about2.support_gept_text": "GEPT — Nhóm Nghiên cứu và Điều tra về Lao động (UnDF, Brasília) — quy tụ nghiên cứu và tranh luận công khai về lý thuyết giá trị lao động, thời gian làm việc và khoa học xã hội.",
+    "about2.support_gept_link": "Ghé thăm GEPT →",
+    "about2.support_cdl_text": "Capital Data Lab (UnDF/FAPDF) phát triển khai thác dữ liệu, thu thập tự động và nghiên cứu-hành động để tạo tin tức chiến lược về lao động, thương mại và tín dụng ở Địa bàn Liên bang Brasil.",
+    "about2.support_cdl_link": "Ghé thăm Capital Data Lab →"
   },
   "phrases": {
     "About": "Giới thiệu",

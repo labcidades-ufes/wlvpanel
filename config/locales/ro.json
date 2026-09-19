@@ -733,7 +733,12 @@
     "about2.team_link": "Faceți cunoștință cu echipa și alți membri →",
     "about2.institution_kicker": "Apartenența instituțională",
     "about2.institution_text": "WLVD este afiliat cu LabCidades. Acest parteneriat conectează cercetarea privind forța de muncă, producția și dezvoltarea cu instrumente publice pentru explorarea datelor.",
-    "about2.institution_link": "Vizitați LabCidades →"
+    "about2.institution_link": "Vizitați LabCidades →",
+    "about2.support_kicker": "Sprijin",
+    "about2.support_gept_text": "GEPT — Grupul de Studii și Cercetări pentru Muncă (UnDF, Brasília) — reunește cercetare și dezbatere publică despre teoria valorii-muncă, timpul de muncă și științele sociale.",
+    "about2.support_gept_link": "Vizitați GEPT →",
+    "about2.support_cdl_text": "Capital Data Lab (UnDF/FAPDF) dezvoltă minerit de date, colectare automatizată și cercetare-acțiune pentru a produce informații strategice despre muncă, comerț și credit în Districtul Federal.",
+    "about2.support_cdl_link": "Vizitați Capital Data Lab →"
   },
   "phrases": {
     "About": "Despre",

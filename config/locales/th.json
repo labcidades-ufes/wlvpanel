@@ -733,7 +733,12 @@
     "about2.team_link": "พบกับทีมงานและสมาชิกท่านอื่นๆ →",
     "about2.institution_kicker": "สังกัดสถาบัน",
     "about2.institution_text": "WLVD อยู่ในเครือของ LabCidades ความร่วมมือครั้งนี้เชื่อมโยงการวิจัยด้านแรงงาน การผลิต และการพัฒนาเข้ากับเครื่องมือสาธารณะสำหรับการสำรวจข้อมูล",
-    "about2.institution_link": "เยี่ยมชม LabCidades →"
+    "about2.institution_link": "เยี่ยมชม LabCidades →",
+    "about2.support_kicker": "การสนับสนุน",
+    "about2.support_gept_text": "GEPT — กลุ่มศึกษาและวิจัยเรื่องแรงงาน (UnDF, บราซิเลีย) — รวมงานวิจัยและการถกเถียงสาธารณะว่าด้วยทฤษฎีมูลค่าแรงงาน เวลาทำงาน และสังคมศาสตร์",
+    "about2.support_gept_link": "เยี่ยมชม GEPT →",
+    "about2.support_cdl_text": "Capital Data Lab (UnDF/FAPDF) พัฒนาการทำเหมืองข้อมูล การเก็บข้อมูลอัตโนมัติ และการวิจัยเชิงปฏิบัติการ เพื่อผลิตข่าวกรองเชิงกลยุทธ์ว่าด้วยแรงงาน การค้า และสินเชื่อในเขตสหพันธรัฐของบราซิล",
+    "about2.support_cdl_link": "เยี่ยมชม Capital Data Lab →"
   },
   "phrases": {
     "About": "เกี่ยวกับโครงการ",

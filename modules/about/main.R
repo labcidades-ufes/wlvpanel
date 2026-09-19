@@ -61,6 +61,12 @@ TABPANEL <- tabPanel(l("tab_name.about"), value = "about",
         tags$div(tags$p(class = "wlv-about-kicker", l("about2.institution_kicker")),
           tags$h2("LabCidades"), tags$p(l("about2.institution_text")),
           wlv_about_link("http://www.labcidades.com.br", l("about2.institution_link")))),
+      tags$section(class = "wlv-about-support",
+        tags$p(class = "wlv-about-kicker", l("about2.support_kicker")),
+        tags$article(tags$h3("GEPT"), tags$p(l("about2.support_gept_text")),
+          wlv_about_link("https://gept.grupo.pro.br", l("about2.support_gept_link"))),
+        tags$article(tags$h3("Capital Data Lab"), tags$p(l("about2.support_cdl_text")),
+          wlv_about_link("https://capitaldatalab.grupo.pro.br", l("about2.support_cdl_link")))),
       wlv_citation_section())
   )
 )

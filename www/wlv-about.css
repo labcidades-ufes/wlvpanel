@@ -33,6 +33,9 @@
 .wlv-about-content .wlv-about-institution { display:grid; grid-template-columns:280px minmax(0,1fr); gap:48px; align-items:center; padding:36px; background:var(--wlv-surface); border:1px solid var(--wlv-line); border-radius:12px; margin:32px 0 0; }
 .wlv-about-lab-logo { display:flex; align-items:center; padding:22px; background:#fff; border-radius:8px; }
 .wlv-about-lab-logo img { display:block; width:100%; height:auto; }
+.wlv-about-support { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+.wlv-about-support > .wlv-about-kicker { grid-column:1/-1; margin-bottom:0; }
+.wlv-about-support article { padding:28px; background:var(--wlv-surface); border:1px solid var(--wlv-line); border-radius:12px; }
 .wlv-about-content .wlv-about-citation { border:0; padding-bottom:0; }
 .wlv-about-citation .wlv-citation { padding:24px 28px; background:#fff; border-left:5px solid var(--wlv-amber); border-radius:0 8px 8px 0; }
 @media(max-width:1000px) { .wlv-about-people { grid-template-columns:repeat(2,minmax(0,1fr)); } .wlv-about-intro,.wlv-about-research { gap:32px; } }
@@ -45,6 +48,8 @@
   .wlv-about-intro,.wlv-about-research,.wlv-about-topics { grid-template-columns:1fr; gap:22px; }
   .wlv-about-content .wlv-about-institution { grid-template-columns:1fr; gap:24px; padding:22px; }
   .wlv-about-lab-logo { max-width:260px; }
+  .wlv-about-support { grid-template-columns:1fr; }
+  .wlv-about-support article { padding:22px; }
   .wlv-about-people { gap:14px; }
   .wlv-about-person img { height:190px; }
   .wlv-about-person img.wlv-about-portrait-borges { padding:28px 6px 0; }

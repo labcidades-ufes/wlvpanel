@@ -733,7 +733,12 @@
     "about2.team_link": "Temui tim dan anggota lainnya →",
     "about2.institution_kicker": "Afiliasi institusi",
     "about2.institution_text": "WLVD berafiliasi dengan LabCidades. Kemitraan ini menghubungkan penelitian tentang ketenagakerjaan, produksi dan pengembangan dengan alat publik untuk mengeksplorasi data.",
-    "about2.institution_link": "Kunjungi LabCidades →"
+    "about2.institution_link": "Kunjungi LabCidades →",
+    "about2.support_kicker": "Dukungan",
+    "about2.support_gept_text": "GEPT — Kelompok Studi dan Penelitian untuk Tenaga Kerja (UnDF, Brasília) — menghimpun riset dan perdebatan publik tentang teori nilai-tenaga kerja, jam kerja, dan ilmu sosial.",
+    "about2.support_gept_link": "Kunjungi GEPT →",
+    "about2.support_cdl_text": "Capital Data Lab (UnDF/FAPDF) mengembangkan penambangan data, pengumpulan otomatis, dan riset-aksi untuk menghasilkan intelijen strategis tentang tenaga kerja, perdagangan, dan kredit di Distrik Federal Brasil.",
+    "about2.support_cdl_link": "Kunjungi Capital Data Lab →"
   },
   "phrases": {
     "About": "Tentang",

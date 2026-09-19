@@ -733,7 +733,12 @@
     "about2.team_link": "チームと他のメンバーを紹介します→",
     "about2.institution_kicker": "所属機関",
     "about2.institution_text": "WLVD は LabCidades に所属しています。このパートナーシップは、労働、生産、開発に関する研究を、データを調査するための公開ツールと結び付けます。",
-    "about2.institution_link": "LabCidades にアクセス →"
+    "about2.institution_link": "LabCidades にアクセス →",
+    "about2.support_kicker": "支援",
+    "about2.support_gept_text": "GEPT（労働に関する研究・調査グループ、UnDF、ブラジリア）は、労働価値論、労働時間、社会科学に関する研究と公開討論を集めています。",
+    "about2.support_gept_link": "GEPT にアクセス →",
+    "about2.support_cdl_text": "Capital Data Lab（UnDF/FAPDF）は、データマイニング、自動収集、アクション・リサーチを展開し、ブラジル連邦直轄区における労働、商業、信用に関する戦略的情報を生み出しています。",
+    "about2.support_cdl_link": "Capital Data Lab にアクセス →"
   },
   "phrases": {
     "About": "概要",
