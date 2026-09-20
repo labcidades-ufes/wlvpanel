@@ -3,13 +3,17 @@
 wlvpanel_generated_directory <- function(
     kind = c("cache", "downloads"),
     root = ".",
-    campaign_root = Sys.getenv("WLV_CAMPAIGN_ROOT", unset = "")) {
+    campaign_root = Sys.getenv("WLV_CAMPAIGN_ROOT", unset = ""),
+    storage_root = Sys.getenv("WLV_STORAGE_ROOT", unset = "")) {
   kind <- match.arg(kind)
   compare_path <- function(path) {
     if (.Platform$OS.type == "windows") tolower(path) else path
   }
   root <- normalizePath(root, winslash = "/", mustWork = TRUE)
   if (nzchar(campaign_root)) {
+    if (nzchar(storage_root)) {
+      stop("WLV_STORAGE_ROOT must not be combined with WLV_CAMPAIGN_ROOT.", call. = FALSE)
+    }
     campaign <- normalizePath(campaign_root, winslash = "/", mustWork = TRUE)
     temporary <- normalizePath(file.path(root, "temp"), winslash = "/", mustWork = TRUE)
     if (!identical(compare_path(dirname(campaign)), compare_path(temporary))) {
@@ -24,6 +28,9 @@ wlvpanel_generated_directory <- function(
     }
     base <- campaign
     path <- file.path(base, if (kind == "cache") "scratch/cache" else "results/download")
+  } else if (nzchar(storage_root)) {
+    base <- normalizePath(storage_root, winslash = "/", mustWork = TRUE)
+    path <- file.path(base, if (kind == "cache") "labourvaluesdatapanel-cache" else "download")
   } else {
     base <- root
     path <- file.path(root, "data", if (kind == "cache") "labourvaluesdatapanel-cache" else "download")
