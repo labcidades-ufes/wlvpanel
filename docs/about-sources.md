@@ -27,12 +27,12 @@ O [módulo Sobre do e-mar](https://labcidades.ufes.br/e-mar/sobre/) é referênc
 
 ## Apoio
 
-A seção de apoio da apresentação cita dois grupos, ambos com vínculo institucional com a UnDF e incluídos por solicitação do usuário em 19 de setembro de 2026:
+A seção de apoio da apresentação cita dois grupos vinculados ao ecossistema da UnDF e incluídos por solicitação do usuário em 19 de setembro de 2026:
 
-- [GEPT — Grupo de Estudos e Pesquisas para o Trabalho](https://gept.grupo.pro.br): apresentado pelo próprio site como grupo de pesquisa e debate público sobre a teoria do valor-trabalho e as ciências sociais, com agenda dedicada à jornada de trabalho. A descrição usada no painel resume essa apresentação institucional.
+- [GEPT — Grupo de Estudos e Pesquisas para o Trabalho](https://gept.grupo.pro.br): grupo interuniversitário UnDF & UnB, apresentado pelo próprio site como grupo de pesquisa e debate público sobre a teoria do valor-trabalho e as ciências sociais, com agenda dedicada à jornada de trabalho. A descrição usada no painel resume essa apresentação institucional.
 - [Capital Data Lab](https://capitaldatalab.grupo.pro.br): apresentado pelo próprio site como projeto de mineração de dados, inteligência estratégica e pesquisa-ação no Distrito Federal, com coleta automatizada de fontes públicas. A descrição usada no painel resume essa apresentação institucional.
 
-Não foram incorporados logotipos ou imagens dos dois grupos: os quadros usam apenas texto e links. As descrições devem acompanhar o que os sites divulgam sobre si mesmos e não constituem endosso do conteúdo específico de cada projeto.
+Os logotipos dos dois grupos foram fornecidos pelo usuário em 19 de setembro de 2026 e incorporados aos quadros de apoio na mesma apresentação visual do quadro do LabCidades. As descrições devem acompanhar o que os sites divulgam sobre si mesmos e não constituem endosso do conteúdo específico de cada projeto.
 
 ## Proveniência dos recursos visuais originais
 
@@ -41,6 +41,8 @@ Os arquivos abaixo foram obtidos diretamente das fontes identificadas. Os bytes 
 | Arquivo | Fonte e identificação | SHA-256 | Crédito/licença encontrada |
 | --- | --- | --- | --- |
 | `www/branding/labcidades.webp` | [Logotipo servido pela página oficial do LabCidades](https://labcidades.com.br/wp-content/uploads/2026/07/logo-labcidades-01.webp), em <http://www.labcidades.com.br> | `C7095B6172726C482174F525EE77A20EC0160E1BAA80ECC1AFC8F538E4CE82A1` | Marca LabCidades. Licença de redistribuição não especificada na página consultada. |
+| `www/branding/gept.webp` | Arquivo fornecido pelo usuário em 19 de setembro de 2026 e identificado como marca do GEPT. | `DA1C74959AE3D72EEB3B4C2CA14D1BEDF45D07A2A39E622E1A5AC2DBF85D7D53` | Marca GEPT, uso no painel solicitado pelo usuário. Licença de redistribuição não informada. |
+| `www/branding/capitaldatalab.webp` | Arquivo fornecido pelo usuário em 19 de setembro de 2026 e identificado como marca do Capital Data Lab. | `DD547AB0497DA159FA814AB664D6C3DE9FA60A73C762981BEC102BE5BD95129B` | Marca Capital Data Lab, uso no painel solicitado pelo usuário. Licença de redistribuição não informada. |
 | `www/people/rodrigo-franklin.jpg` | [Retrato público do CNPq](https://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4127985D8), identificado nominalmente no [e-mar](https://labcidades.ufes.br/e-mar/sobre/) | `B01EC40B4AD7CF8E255F0C2164BC52D459A8CFA554DF48FA99D07B0879166DC1` | Retrato do currículo público/CNPq. Fotógrafo e licença específica não informados. |
 | `www/people/rodrigo-borges.gif` | Arquivo `D:/Downloads/servletrecuperafoto.gif`, fornecido pelo usuário e identificado como retrato de Rodrigo Emmanuel Santana Borges em 9 de setembro de 2026. | `818CD24D7C47C3C032989DD81D8F5F2D6F0BC42B2FF1CE71292DCA3AC2E14F81` | Uso no painel solicitado pelo usuário. Fotógrafo e licença específica não informados. GIF original preservado byte a byte; o fundo branco é aplicado somente em CSS. |
 | `www/people/everlam-montibeler.jpg` | [Retrato público do CNPq](https://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4560892A3), identificado nominalmente no [e-mar](https://labcidades.ufes.br/e-mar/sobre/) | `33CF44224F1821A8E5DF775803F2CB24D6855EF391D9571F04EF3C41FCD1878E` | Retrato do currículo público/CNPq. Fotógrafo e licença específica não informados. |

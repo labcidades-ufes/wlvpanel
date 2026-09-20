@@ -216,10 +216,10 @@
     "zh": "支持"
   },
   "about2.support_gept_text": {
-    "pt": "O GEPT — Grupo de Estudos e Pesquisas para o Trabalho (UnDF, Brasília) — reúne pesquisa e debate público sobre a teoria do valor-trabalho, a jornada de trabalho e as ciências sociais.",
-    "en": "GEPT — the Study and Research Group for Labour (UnDF, Brasília) — brings together research and public debate on labour value theory, working time and the social sciences.",
-    "es": "El GEPT — Grupo de Estudios e Pesquisas para el Trabajo (UnDF, Brasilia) — reúne investigación y debate público sobre la teoría del valor-trabajo, la jornada laboral y las ciencias sociales.",
-    "zh": "GEPT（劳动研究与调查小组，UnDF，巴西利亚）汇集关于劳动价值理论、工时与社会科学的研究和公共讨论。"
+    "pt": "O GEPT — Grupo de Estudos e Pesquisas para o Trabalho, grupo interuniversitário UnDF & UnB — reúne pesquisa e debate público sobre a teoria do valor-trabalho, a jornada de trabalho e as ciências sociais.",
+    "en": "GEPT — the Study and Research Group for Labour, an inter-university group of UnDF & UnB — brings together research and public debate on labour value theory, working time and the social sciences.",
+    "es": "El GEPT — Grupo de Estudios y Pesquisas para el Trabajo, grupo interuniversitario UnDF y UnB — reúne investigación y debate público sobre la teoría del valor-trabajo, la jornada laboral y las ciencias sociales.",
+    "zh": "GEPT（劳动研究与调查小组，由UnDF与UnB组成的跨校联合团队）汇集关于劳动价值理论、工时与社会科学的研究和公共讨论。"
   },
   "about2.support_gept_link": {
     "pt": "Visitar o GEPT →",
@@ -228,10 +228,10 @@
     "zh": "访问GEPT →"
   },
   "about2.support_cdl_text": {
-    "pt": "O Capital Data Lab (UnDF/FAPDF) desenvolve mineração de dados, automação de coleta e pesquisa-ação para produzir inteligência estratégica sobre trabalho, comércio e crédito no Distrito Federal.",
-    "en": "Capital Data Lab (UnDF/FAPDF) develops data mining, automated collection and research-action to produce strategic intelligence on labour, commerce and credit in Brazil's Federal District.",
-    "es": "El Capital Data Lab (UnDF/FAPDF) desarrolla minería de datos, automatización de la recolección e investigación-acción para producir inteligencia estratégica sobre trabajo, comercio y crédito en el Distrito Federal.",
-    "zh": "Capital Data Lab（UnDF/FAPDF）开展数据挖掘、自动化采集与行动研究，为巴西联邦区的劳动、商业和信贷提供战略情报。"
+    "pt": "O Capital Data Lab (UnDF) desenvolve mineração de dados, automação de coleta e pesquisa-ação para produzir inteligência estratégica sobre trabalho, comércio e crédito no Distrito Federal.",
+    "en": "Capital Data Lab (UnDF) develops data mining, automated collection and research-action to produce strategic intelligence on labour, commerce and credit in Brazil's Federal District.",
+    "es": "El Capital Data Lab (UnDF) desarrolla minería de datos, automatización de la recolección e investigación-acción para producir inteligencia estratégica sobre trabajo, comercio y crédito en el Distrito Federal.",
+    "zh": "Capital Data Lab（UnDF）开展数据挖掘、自动化采集与行动研究，为巴西联邦区的劳动、商业和信贷提供战略情报。"
   },
   "about2.support_cdl_link": {
     "pt": "Visitar o Capital Data Lab →",
