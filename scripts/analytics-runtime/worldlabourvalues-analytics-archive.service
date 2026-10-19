@@ -1,0 +1,9 @@
+[Unit]
+Description=Agregação e manutenção dos relatórios Matomo WLV
+Requires=worldlabourvalues-analytics.service
+After=worldlabourvalues-analytics.service
+
+[Service]
+Type=oneshot
+ExecStart=/srv/worldlabourvalues-analytics/bin/archive.sh
+TimeoutStartSec=1800

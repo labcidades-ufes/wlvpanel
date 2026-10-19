@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup privado das estatísticas Matomo WLV
+Requires=worldlabourvalues-analytics.service
+After=worldlabourvalues-analytics.service
+
+[Service]
+Type=oneshot
+UMask=0077
+ExecStart=/usr/bin/python3 /srv/worldlabourvalues-analytics/bin/backup.py
+TimeoutStartSec=1800

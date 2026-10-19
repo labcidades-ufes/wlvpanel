@@ -27,7 +27,8 @@ setup_panel <- tagList(
       selectizeInput("bases", label = l("app.bases"), choices = list_methods,
         selected = intersect(init_bases, list_methods), multiple = TRUE, width = "100%",
         options = list(plugins = list("remove_button"))),
-      actionButton("info_bases", label = l("app.method_info"), icon = icon("circle-info"))))
+      actionButton("info_bases", label = l("app.method_info"), icon = icon("circle-info")),
+      tags$p(wlv_analytics_privacy_button("wlv-privacy-open-settings"))))
 )
 SERVER <- function(IP, OP, RV, SESSION) {
   RV$bases <- reactive({

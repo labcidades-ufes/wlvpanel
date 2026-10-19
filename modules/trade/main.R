@@ -4,6 +4,7 @@ source("modules/trade/text.R", encoding = "UTF-8")
 source("modules/trade/charts.R", encoding = "UTF-8")
 source("utils/trade_map.R", encoding = "UTF-8")
 source("utils/trade_workbooks.R", encoding = "UTF-8")
+source("utils/download_requests.R", encoding = "UTF-8")
 
 trade_ui <- function(id, assets = NULL) {
   ns <- shiny::NS(id)
@@ -339,7 +340,7 @@ trade_server <- function(id, store, data, lang, bases, active) {
       if (length(finite)) leaflet::addLegend(proxy, layerId = "trade-legend", position = "bottomleft", pal = palette, values = if (signed) c(-limit, limit) else c(0, limit), title = htmltools::htmlEscape(unit_label()), labFormat = function(type, cuts, p) vapply(cuts, wlv_trade_number, character(1L), lang = lang()))
     })
     shiny::observeEvent(input$map_shape_click, select_item(input$map_shape_click$id, "partner"))
-    export_frame <- function(values) {
+    export_frame <- function(values, provenance = store$info()) {
       shiny::req(!is.null(values), nrow(values))
       values$method <- input$method; values$country <- input$country; values$country_name <- country_label(input$country)
       values$selected_partner <- if (is.null(optional(input$partner))) "" else input$partner
@@ -348,20 +349,39 @@ trade_server <- function(id, store, data, lang, bases, active) {
       values$sign_convention <- switch(input$metric, transfer = "outgoing_minus_incoming; positive_receipt_for_focal_country", balance = "outgoing_minus_incoming; positive_trade_surplus", exports = "outgoing", imports = "incoming")
       values$export_contribution <- values$outgoing
       values$import_contribution <- if (input$metric %in% c("transfer", "balance")) -values$incoming else values$incoming
-      info <- store$info(); values$data_version <- if (is.null(info$version)) "bilateral" else info$version
+      values$data_version <- if (is.null(provenance$version)) "bilateral" else provenance$version
       values
     }
-    write_workbook <- function(file, values, kind) {
+    workbook_request <- function(values, kind) {
       selected <- selection(); selected$method <- input$method
       context <- list(title = context_title(), unit_label = unit_label(), country_label = country_label(input$country),
         partner_label = if (is.null(selected$partner)) tr("all_partners") else country_label(selected$partner),
         sector_label = if (is.null(selected$sector)) tr("all_sectors") else sector_label(selected$sector))
-      wlv_write_trade_xlsx(file, rows = export_frame(values), selection = selected, context = context,
-        lang = lang(), provenance = store$info(), kind = kind)
+      info <- store$info()
+      list(filename = if (identical(kind, "series"))
+          paste0("WLVD-trade-", selected$country, "-", selected$method, "-series.xlsx") else
+          paste0("WLVD-trade-", selected$country, "-", selected$method, "-", selected$year, ".xlsx"),
+        rows = export_frame(values, info), selection = selected, context = context,
+        lang = lang(), provenance = info, kind = kind,
+        analytics = list(kind = paste0("trade_", kind), format = "xlsx",
+          method = selected$method, country = selected$country, partner = selected$partner,
+          sector = selected$sector, indicator = paste(selected$metric, selected$scope, selected$unit, sep = "."),
+          years = if (identical(kind, "series")) unique(values$year) else selected$year))
+    }
+    write_request <- function(request, file) {
+      wlv_write_trade_xlsx(file, rows = request$rows, selection = request$selection, context = request$context,
+        lang = request$lang, provenance = request$provenance, kind = request$kind)
+    }
+    write_workbook <- function(file, values, kind) {
+      write_request(workbook_request(values, kind), file)
     }
     xlsx_type <- "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    output$download <- shiny::downloadHandler(filename = function() paste0("WLVD-trade-", input$country, "-", input$method, "-", input$year, ".xlsx"), contentType = xlsx_type, content = function(file) write_workbook(file, plot_rows(), "selection"))
-    output$download_series <- shiny::downloadHandler(filename = function() paste0("WLVD-trade-", input$country, "-", input$method, "-series.xlsx"), contentType = xlsx_type, content = function(file) write_workbook(file, series_data(), "series"))
+    selection_callbacks <- wlv_download_callbacks(function() workbook_request(plot_rows(), "selection"), writer = write_request)
+    series_callbacks <- wlv_download_callbacks(function() workbook_request(series_data(), "series"), writer = write_request)
+    output$download <- shiny::downloadHandler(filename = selection_callbacks$filename,
+      contentType = xlsx_type, content = selection_callbacks$content)
+    output$download_series <- shiny::downloadHandler(filename = series_callbacks$filename,
+      contentType = xlsx_type, content = series_callbacks$content)
     output$provenance <- shiny::renderText({
       available <- as.integer(years()); shiny::req(length(available))
       paste(tr("source"), input$method, paste0(tr("periods"), ": ", min(available), "–", max(available)), sep = " · ")

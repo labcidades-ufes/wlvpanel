@@ -1,0 +1,51 @@
+name: worldlabourvalues-analytics
+services:
+  db:
+    image: mariadb:11.8.9@sha256:2d2f4095530294735a857cfe22bb101e19b0849b416911c796ec4aa81b164a62
+    container_name: wlv-analytics-db
+    restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1
+    pids_limit: 200
+    command: ["--innodb-buffer-pool-size=256M", "--max-connections=30", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    environment:
+      MARIADB_DATABASE: matomo
+      MARIADB_USER: matomo
+      MARIADB_PASSWORD_FILE: /run/secrets/db-password
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db-root-password
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./secrets/db-password:/run/secrets/db-password:ro
+      - ./secrets/db-root-password:/run/secrets/db-root-password:ro
+    networks: [database]
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+    logging: {driver: json-file, options: {max-size: "5m", max-file: "3"}}
+  app:
+    image: matomo:5.13.0-apache@sha256:8e6bdd396496a98e4011cfbdc4be996d9259cbd1f09e0651b6058bb9a5984e13
+    container_name: wlv-analytics-app
+    restart: unless-stopped
+    mem_limit: 2g
+    cpus: 1.5
+    pids_limit: 150
+    ports: ["127.0.0.1:8093:80"]
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - ./html:/var/www/html
+      - ./apache.conf:/etc/apache2/sites-enabled/000-default.conf:ro
+      - ./php.ini:/usr/local/etc/php/conf.d/wlv.ini:ro
+      - ./bin:/opt/wlv-analytics:ro
+    networks: [database, egress]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1/matomo.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    logging: {driver: json-file, options: {max-size: "5m", max-file: "3"}}
+networks:
+  database: {internal: true}
+  egress: {}

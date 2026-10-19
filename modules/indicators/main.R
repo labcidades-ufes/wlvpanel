@@ -515,14 +515,18 @@ indicators_server <- function(id, data, lang, bases) {
       output[[paste0("workbook_", method)]] <- wlv_request_download_handler(function()
         wlv_aggregated_download_localize(numeric_data(), data$language, lang()))
     })
-    output$download <- shiny::downloadHandler(
-      filename = function() paste0("WLVD-", input$indicator, ".csv"), contentType = "text/csv; charset=utf-8",
-      content = function(file) {
-        values <- selected_series()
-        values$indicator <- input$indicator
-        values$country_name <- label(paste0("ISO3.", values$country), values$country)
-        utils::write.csv(values, file, row.names = FALSE, na = "", fileEncoding = "UTF-8")
-      })
+    csv_callbacks <- wlv_download_callbacks(function() {
+      values <- selected_series()
+      values$indicator <- input$indicator
+      values$country_name <- label(paste0("ISO3.", values$country), values$country)
+      list(filename = paste0("WLVD-", input$indicator, ".csv"), data = values,
+        analytics = list(kind = "indicators_csv", format = "csv", indicator = input$indicator,
+          method = unique(values$method), country = unique(values$country), years = unique(values$year)))
+    }, writer = function(request, file) {
+      utils::write.csv(request$data, file, row.names = FALSE, na = "", fileEncoding = "UTF-8")
+    })
+    output$download <- shiny::downloadHandler(filename = csv_callbacks$filename,
+      contentType = "text/csv; charset=utf-8", content = csv_callbacks$content)
     list(series = series, snapshot = snapshot, selected_series = selected_series)
   })
 }

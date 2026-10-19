@@ -1,0 +1,16 @@
+[Unit]
+Description=Matomo isolado do World Labour Values
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/srv/worldlabourvalues-analytics
+ExecStart=/usr/bin/docker compose up -d --wait --wait-timeout 180
+ExecStop=/usr/bin/docker compose stop
+TimeoutStartSec=240
+
+[Install]
+WantedBy=multi-user.target

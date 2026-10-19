@@ -1,0 +1,16 @@
+.wlv-privacy-link { border: 0; padding: 0; background: none; color: inherit; text-decoration: underline; text-underline-offset: 3px; font: inherit; cursor: pointer; }
+.wlv-privacy-link:focus-visible, .wlv-privacy-dialog button:focus-visible { outline: 3px solid #246b87; outline-offset: 4px; }
+.wlv-privacy-dialog { width: min(620px, calc(100vw - 32px)); max-height: calc(100vh - 40px); overflow: auto; padding: 26px; border: 1px solid #d5dbdc; border-radius: 12px; color: #23343a; background: #fff; text-align: left; box-shadow: 0 20px 70px #12232f45; font-size: 14px; line-height: 1.6; }
+.wlv-privacy-dialog::backdrop { background: #172b3b88; }
+.wlv-privacy-dialog:not([open]) { display: none; }
+.wlv-privacy-dialog h2 { margin: 0 0 16px; font-size: 22px; line-height: 1.25; }
+.wlv-privacy-dialog p { margin: 0 0 14px; }
+.wlv-privacy-dialog [hidden] { display: none !important; }
+.wlv-privacy-status { font-weight: 600; }
+.wlv-privacy-dialog .btn-default,
+.wlv-privacy-dialog .btn-default:hover,
+.wlv-privacy-dialog .btn-default:focus,
+.wlv-privacy-dialog .btn-default:active { color: #23343a; background: #f1f5f6; border-color: #657982; box-shadow: none; }
+.wlv-privacy-dialog .btn-default:disabled { opacity: .65; }
+.wlv-privacy-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; margin-top: 20px; }
+@media (max-width: 480px) { .wlv-privacy-dialog { padding: 20px; } .wlv-privacy-actions button { width: 100%; } }

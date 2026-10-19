@@ -93,7 +93,10 @@ wlv_aggregated_download_localize <- function(data, language, lang = "en") {
     labels = unname(vapply(data$row_keys, label, character(1L))), metadata = meta,
     header = wlv_download_header(data$specs, language, selected, lang), specs = data$specs,
     lang = wlv_language_code(lang), method = data$method,
-    indicators = indicators, contracts = data$contracts)
+    indicators = indicators, contracts = data$contracts,
+    analytics = list(kind = "aggregate", format = "xlsx", method = data$method,
+      country = data$selected$Country$fallback, sector = data$selected$Sector$fallback,
+      indicator = data$selected$Indicator$fallback, years = colnames(data$data)))
 }
 
 # Preserve the public request API for batch callers and existing integrations.
@@ -226,7 +229,11 @@ wlv_multilateral_download_localize <- function(data, language, lang = "en") {
   }
   list(filename = data$filename, data = data$data, labels = unname(labels),
     metadata = data.frame(Code = codes, Name = vapply(codes, wlv_multilateral_indicator_label, character(1L), lang = lang), row.names = NULL),
-    header = wlv_download_header(data$specs, language, selected, lang), specs = data$specs, lang = wlv_language_code(lang))
+    header = wlv_download_header(data$specs, language, selected, lang), specs = data$specs, lang = wlv_language_code(lang),
+    analytics = list(kind = if (wlv_nonempty_selection(data$partner)) "bilateral" else "multilateral",
+      format = "xlsx", method = data$specs$code, country = data$country,
+      partner = data$partner, indicator = if (wlv_nonempty_selection(data$partner)) NULL else data$codes,
+      years = colnames(data$data)))
 }
 
 wlv_multilateral_download_request <- function(method, country, partner = NULL,
@@ -240,16 +247,39 @@ wlv_multilateral_download_request <- function(method, country, partner = NULL,
 # from one snapshot with the contents or language of another.
 wlv_download_callbacks <- function(request, writer = wlv_write_download_request) {
   pending <- NULL
-  list(filename = function() {
-    current <- request()
-    shiny::req(current)
+  events <- NULL
+  # A coleta é opcional também para ferramentas que carregam apenas este helper.
+  safely <- function(expression) tryCatch(withCallingHandlers(expression,
+    warning = function(warning) invokeRestart("muffleWarning")), error = function(error) NULL)
+  begin <- function() {
+    events <<- if (exists("wlv_analytics_download_events", mode = "function"))
+      safely(wlv_analytics_download_events()) else NULL
+    current <- tryCatch({
+      value <- request()
+      shiny::req(value)
+      value
+    }, error = function(error) {
+      safely(events$failed())
+      stop(error)
+    })
+    safely(events$requested(current))
     pending <<- current
+    current
+  }
+  list(filename = function() {
+    current <- if (is.null(pending)) begin() else pending
     current$filename
   }, content = function(file) {
-    current <- pending
+    current <- if (is.null(pending)) begin() else pending
+    current_events <- events
     pending <<- NULL
-    if (is.null(current)) current <- request()
-    writer(current, file)
+    events <<- NULL
+    result <- tryCatch(withVisible(writer(current, file)), error = function(error) {
+      safely(current_events$failed())
+      stop(error)
+    })
+    safely(current_events$generated(file))
+    if (result$visible) result$value else invisible(result$value)
   })
 }
 
