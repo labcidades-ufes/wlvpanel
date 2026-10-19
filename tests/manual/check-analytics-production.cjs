@@ -24,9 +24,16 @@ const {chromium} = require(path.join(campaign, 'scratch/browser/node_modules/pla
 const destination = path.join(campaign, 'results/analytics-production.json');
 assert.ok(!fs.existsSync(destination));
 const marker = 'analytics-production-validation-' + new Date().toISOString().replace(/[^0-9]/g, '');
-const result = {marker, site_id: 1, real_http_transport: true, events: [], errors: [], checks: []};
+const result = {marker, site_id: 1, real_http_transport: true,
+  transport: 'Navegação e assets diretos no Chromium com perfil temporário exclusivo; apenas o coletor usa route.fetch/fulfill.',
+  events: [], errors: [], checks: []};
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
-let browser;
+let context, browserProfile, pendingTracking = 0;
+async function waitForTracking(predicate, message) {
+  const deadline = Date.now() + 15000;
+  while (!predicate() && Date.now() < deadline) await pause(100);
+  assert.ok(predicate(), message);
+}
 function sanitize(value) { return String(value).replace(/\/session\/[^\s/?]+/g, '/session/[redacted]').split('\n')[0]; }
 async function ready(page, tab) {
   await page.waitForFunction(tab => window.Shiny?.shinyapp?.isConnected() && Boolean(window.Shiny.shinyapp.config?.sessionId) &&
@@ -38,40 +45,49 @@ async function ready(page, tab) {
   // Playwright cria o perfil pelo Node antes de iniciar o Chromium.
   for (const key of ['TEMP', 'TMP', 'TMPDIR']) process.env[key] = browserTemporary;
   try {
-    browser = await chromium.launch({executablePath: '/usr/bin/chromium', headless: true,
-      env: {...process.env}, args: ['--no-sandbox', '--disable-dev-shm-usage']});
+    // Neste Chromium o contexto privado falha com ERR_NETWORK_CHANGED em HTTPS
+    // público. Um perfil novo permite transporte real sem reutilizar sessão.
+    browserProfile = fs.mkdtempSync(path.join(browserTemporary, 'wlv-smoke-'));
+    context = await chromium.launchPersistentContext(browserProfile, {
+      executablePath: '/usr/bin/chromium', headless: true, env: {...process.env},
+      args: ['--no-sandbox', '--disable-dev-shm-usage'], locale: 'pt-BR',
+      viewport: {width: 1440, height: 1000}, acceptDownloads: true});
   } finally {
     Object.assign(process.env, previousTemporary);
   }
-  const context = await browser.newContext({locale: 'pt-BR', viewport: {width: 1440, height: 1000}, acceptDownloads: true});
   context.setDefaultTimeout(90000);
-  await context.route(url => ['worldlabourvalues.org', 'panel.worldlabourvalues.org'].includes(url.hostname), async route => {
+  await context.route(url => ['worldlabourvalues.org', 'panel.worldlabourvalues.org'].includes(url.hostname) &&
+    url.pathname === '/estatisticas/matomo.php', async route => {
+    pendingTracking++;
     const request = route.request(), url = new URL(request.url());
     try {
-      if (url.pathname === '/estatisticas/matomo.php') {
-        const data = new URLSearchParams(request.postData() || url.search);
-        assert.equal(data.get('idsite'), '1');
-        assert.equal(request.method(), 'POST');
-        assert.ok(!data.has('token_auth') && !data.has('uid'));
-        const page = new URL(data.get('url'));
-        const event = {tab: page.searchParams.get('tab'), campaign: page.searchParams.get('utm_campaign'),
-          category: data.get('e_c'), action: data.get('e_a'), name: data.get('e_n'), value: data.get('e_v')};
-        const response = await route.fetch();
-        event.status = response.status(); result.events.push(event);
-        assert.equal(response.status(), 204);
-        assert.ok(!response.headers()['set-cookie']);
-        await route.fulfill({response}); return;
-      }
-      const response = await route.fetch({timeout: 90000, maxRedirects: 0});
-      if (response.status() >= 400) result.errors.push({path: url.pathname, status: response.status()});
+      const data = new URLSearchParams(request.postData() || url.search);
+      assert.equal(data.get('idsite'), '1');
+      assert.equal(request.method(), 'POST');
+      assert.ok(!data.has('token_auth') && !data.has('uid'));
+      const page = new URL(data.get('url'));
+      const event = {tab: page.searchParams.get('tab'), campaign: page.searchParams.get('utm_campaign'),
+        category: data.get('e_c'), action: data.get('e_a'), name: data.get('e_n'), value: data.get('e_v')};
+      const response = await route.fetch();
+      event.status = response.status(); result.events.push(event);
+      assert.equal(response.status(), 204);
+      assert.ok(!response.headers()['set-cookie']);
       await route.fulfill({response});
     } catch (error) {
       result.errors.push({path: url.pathname.replace(/\/session\/[^/]+/, '/session/[redacted]'), error: sanitize(error.message)});
       await route.abort().catch(() => {});
+    } finally {
+      pendingTracking--;
     }
   });
   const page = await context.newPage();
   page.on('pageerror', error => result.errors.push({error: sanitize(error.message)}));
+  page.on('response', response => {
+    const url = new URL(response.url());
+    if (['worldlabourvalues.org', 'panel.worldlabourvalues.org'].includes(url.hostname) && response.status() >= 400) {
+      result.errors.push({path: url.pathname.replace(/\/session\/[^/]+/, '/session/[redacted]'), status: response.status()});
+    }
+  });
   await page.goto('https://panel.worldlabourvalues.org/?utm_source=validacao&utm_medium=operacao&utm_campaign=' + marker,
     {timeout: 120000});
   await ready(page, 'about');
@@ -89,7 +105,13 @@ async function ready(page, tab) {
   result.checks.push('privacidade acessível nas configurações do Mapa');
   await page.bringToFront(); await page.mouse.move(220, 240); await pause(17000);
   await page.locator('#main_nav a[data-value="about"]').click(); await ready(page, 'about');
-  assert.ok(result.events.some(event => event.category === 'Engagement' && Number(event.value) >= 15));
+  // Heartbeats dividem o tempo ativo em parcelas; valide o total confirmado.
+  const mapSeconds = () => result.events.filter(event => event.category === 'Engagement' &&
+    event.action === 'active_seconds' && event.name === 'map' && event.status === 204)
+    .reduce((sum, event) => sum + Number(event.value), 0);
+  await waitForTracking(() => mapSeconds() >= 15 && pendingTracking === 0,
+    'O coletor deve confirmar ao menos 15 segundos ativos no Mapa.');
+  result.map_active_seconds = mapSeconds();
   assert.ok(result.events.some(event => event.category === 'Acquisition' && event.action === 'entry_origin' && event.name === 'panel'));
   assert.equal(result.events.filter(event => !event.category && event.tab === 'map').length, 1);
   assert.equal(result.events.find(event => !event.category).tab, 'about');
@@ -106,6 +128,7 @@ async function ready(page, tab) {
   await page.locator('#wlv-privacy-toggle').click();
   await page.waitForFunction(() => window.wlvAnalytics.status().optedOut && window.Shiny.shinyapp.$inputValues.wlv_analytics_enabled === false);
   await page.locator('#wlv-privacy-close').click(); await page.setViewportSize({width: 1440, height: 1000}); await pause(500);
+  await waitForTracking(() => pendingTracking === 0, 'Requisições anteriores ao optout devem terminar.');
   const count = result.events.length;
   await page.locator('#main_nav a[data-value="download"]').click(); await ready(page, 'download');
   result.checks.push('optout aplicado e aba Download conectada');
@@ -127,12 +150,14 @@ async function ready(page, tab) {
   result.cookies = cookies;
   assert.equal(await page.evaluate(() => localStorage.getItem('wlv_analytics_optout')), 'true');
   result.checks.push('optout impede novos eventos e preserva download real', 'nenhum cookie de identificação analítica');
+  await waitForTracking(() => pendingTracking === 0, 'O coletor deve terminar as requisições pendentes.');
   assert.deepEqual(result.errors, []);
   result.status = 'passed';
   await context.unrouteAll({behavior: 'ignoreErrors'}); await context.close();
 })().catch(error => { result.status = 'failed'; result.failure = sanitize(error.message); process.exitCode = 1; })
   .finally(async () => {
-    if (browser) await browser.close();
+    if (context) await context.close();
+    if (browserProfile) fs.rmSync(browserProfile, {recursive: true, force: true});
     result.finished_at_utc = new Date().toISOString();
     fs.writeFileSync(destination, JSON.stringify(result, null, 2) + '\n');
     console.log(JSON.stringify(result, null, 2));
